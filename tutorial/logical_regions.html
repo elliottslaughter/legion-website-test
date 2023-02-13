@@ -1,0 +1,481 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Logical Regions &#8211; Legion Programming System</title>
+<meta name="description" content="">
+
+<meta name="keywords" content="">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logical Regions">
+<meta property="og:description" content="Home page for the Legion parallel programming system">
+<meta property="og:url" content="/tutorial/logical_regions.html">
+<meta property="og:site_name" content="Legion Programming System">
+
+
+
+
+
+<link rel="canonical" href="/tutorial/logical_regions.html">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Legion Programming System Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.min.css">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.min.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="icon" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" sizes="48x48" href="/images/favicon/favicon-48x48.png">
+<link rel="icon" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" sizes="144x144" href="/images/favicon/favicon-144x144.png">
+<link rel="icon" sizes="192x192" href="/images/favicon/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="apple-touch-icon-precomposed" sizes="192x192" href="/images/favicon/apple-icon-precomposed.png">
+<meta name="msapplication-config" content="/images/favicon/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<link rel="manifest" href="/images/favicon/manifest.json">
+
+</head>
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Legion Programming System</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+				<li><a href="/overview/" >Overview</a></li>
+		        
+				<li><a href="/starting/" >Getting Started</a></li>
+		        
+				<li><a href="/tutorial/" >Tutorials</a></li>
+		        
+				<li><a href="/events/" >Events</a></li>
+		        
+				<li><a href="/documentation/" >Documentation</a></li>
+		        
+				<li><a href="/publications/" >Publications</a></li>
+		        
+				<li><a href="/resources/" >Resources</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  <div class="article-author-side">
+    <a href="https://www.stanford.edu/"><img src="/images/logos/stanford.png" class="bio-photo" alt="Stanford University logo"></a>
+<a href="https://www6.slac.stanford.edu/"><img src="/images/logos/slac.jpg" class="bio-photo" alt="SLAC National Accelerator Laboratory logo"></a>
+<a href="https://www.lanl.gov/"><img src="/images/logos/los-alamos.png" class="bio-photo" alt="Los Alamos National Laboratory logo"></a>
+<a href="https://www.nvidia.com/"><img src="/images/logos/nvidia.png" class="bio-photo" alt="NVIDIA logo"></a>
+<a href="https://www.rdworldonline.com/rd-100-award-winners-announced-in-analytical-test-it-electrical-categories/"><img src="/images/logos/rd100.png" class="bio-photo" alt="Winner of the R&D 100 Award"></a>
+
+<h3>Legion</h3>
+<p>High Productivity High Performance Computing</p>
+
+
+
+
+
+<a href="http://github.com/StanfordLegion/legion" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+  </div>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h1 itemprop="name">Logical Regions</h1>
+    <div class="article-wrap" itemprop="text">
+      <p><em>Logical regions</em> are the core Legion abstraction for
+data. Conceptually, a logical region can be thought of as being like a
+relation or table in a database. In Legion, a logical region is
+defined as the cross product between an <em>index space</em> and a <em>field
+space</em>. These terms will be defined in this tutorial. The next example
+will show how how to access data in logical regions by making
+<em>physical instances</em> of those regions.</p>
+
+<h4 id="index-spaces">Index Spaces</h4>
+
+<p>If a logical region is a table, then the index space for that region
+is the set of rows in the table. Or to be more precise: rows are
+implicitly (or explicitly) assigned numbers, or indices, and the index
+space is the set of these indices.</p>
+
+<p>Indices can be plain numbers, or they can be multi-dimensional (2-D,
+3-D, etc.). Thus the set of points in an index space are bounded by
+a <code class="language-plaintext highlighter-rouge">Rect</code> templated on the dimensionality of the space.</p>
+
+<p>As with <code class="language-plaintext highlighter-rouge">Rect</code> and <code class="language-plaintext highlighter-rouge">Domain</code>, which were introduced in the <a href="/tutorial/index_tasks.html">index space
+example</a>, it can be useful to describe an
+index space where the number of dimensions is not known at compile
+time. This is simply called <code class="language-plaintext highlighter-rouge">IndexSpace</code>. The templated variant is
+called <code class="language-plaintext highlighter-rouge">IndexSpaceT</code>.</p>
+
+<p>Index spaces are created by invoking one of several overloaded
+variants of the <code class="language-plaintext highlighter-rouge">create_index_space</code> method of <code class="language-plaintext highlighter-rouge">Runtime</code>. This returns
+an <code class="language-plaintext highlighter-rouge">IndexSpace</code> or <code class="language-plaintext highlighter-rouge">IndexSpaceT</code> depending on whether the provided
+argument is a <code class="language-plaintext highlighter-rouge">Domain</code> or <code class="language-plaintext highlighter-rouge">Rect</code>. Examples of these calls can be seen
+on lines 20 and 24.</p>
+
+<p>Index spaces are immutable. The set of points contained in an index
+space cannot be modified after creation. Instead, index spaces can be
+<em>partitioned</em> to create a number of subspaces that contain subsets of
+the points of the parent space. This is covered in a subsequent
+tutorial.</p>
+
+<p>Note that in particular, partitioning can result in an index space
+that is <em>sparse</em>, i.e. where the set of points contained in the space
+cannot be accurately described by a bounding rectangle. Sparse index
+spaces can also be created directly by creating an index space from
+a set of rectangles or a set of points. These calls are documented
+in the API but are not demonstrated here. We walso cover how to 
+partition index spaces into subspaces in a 
+<a href="/tutorial/partitioning.html">subsequent tutorial</a>.</p>
+
+<p>Legion provides a number of API calls that can be used to retrieve
+information about an index space, such as the <code class="language-plaintext highlighter-rouge">Domain</code> or <code class="language-plaintext highlighter-rouge">Rect</code> that
+was used to create it. Lines 28 and 31 show examples of
+such calls.</p>
+
+<h4 id="field-spaces">Field Spaces</h4>
+
+<p>If index spaces describe the rows in a logical region, then field
+spaces describe the columns.</p>
+
+<p>Field spaces are created using the <code class="language-plaintext highlighter-rouge">create_field_space</code> method of
+<code class="language-plaintext highlighter-rouge">Runtime</code> (line 34).</p>
+
+<p>Field spaces are created empty. Fields in a field space are
+dynamically allocated and freed using a <code class="language-plaintext highlighter-rouge">FieldAllocator</code> object (line
+37). For performance reasons there is a compile-time upper bound
+placed on the maximum number of fields that can be allocated in a
+single field space. The user has access to this compile-time limit and
+can modify it by changing the value assigned to <code class="language-plaintext highlighter-rouge">MAX_FIELDS</code> in the
+<code class="language-plaintext highlighter-rouge">legion_config.h</code> header file (the default is 512). If a program attempts 
+to exceed this maximum then the Legion runtime will report an error and 
+exit. There is no limit on the number of field spaces that can be created 
+in a Legion program and therefore the total number of fields in an
+application is unbounded.</p>
+
+<p>Fields are allocated by invoking the <code class="language-plaintext highlighter-rouge">allocate_field</code>
+method of <code class="language-plaintext highlighter-rouge">FieldAllocator</code> (lines 38 and 40). When a
+field is allocated the application must specify
+the size of the field in bytes.
+The <code class="language-plaintext highlighter-rouge">allocate_field</code> method will return a <code class="language-plaintext highlighter-rouge">FieldID</code>
+which is used to name the field. Users may optionally
+specify the ID to be associated with the field being
+allocated using the second parameter to <code class="language-plaintext highlighter-rouge">allocate_field</code>.
+If this is done, then it is the responsibility of the
+user to ensure that each <code class="language-plaintext highlighter-rouge">FieldID</code> is used only once
+for a each field space. Legion supports parallel field
+allocation in the same field space by different tasks,
+but undefined behavior will result if the same <code class="language-plaintext highlighter-rouge">FieldID</code>
+is allocated in the same field space by two different tasks.</p>
+
+<p>Currently Legion assumes that the data stored by fields is
+trivially copyable. If this is not the case, users can also
+register custom serialize/deserialize or <em>serdez</em> functors
+with the runtime to aid in copying data in certain fields.
+The <code class="language-plaintext highlighter-rouge">allocate_field</code> method allows users to specify the ID
+for one of these functors if the data stored in the field
+is not trivally copyable.</p>
+
+<h4 id="logical-regions">Logical Regions</h4>
+
+<p>Logical regions are created by passing an index space and a field
+space to the <code class="language-plaintext highlighter-rouge">create_logical_region</code> method of <code class="language-plaintext highlighter-rouge">Runtime</code> (lines 46 and
+53). As with index spaces, logical regions can either contain a
+dynamic number of dimensions (<code class="language-plaintext highlighter-rouge">LogicalRegion</code>) or a templated number
+(<code class="language-plaintext highlighter-rouge">LogicalRegionT</code>).</p>
+
+<p>Note that, in the example, because both logical regions are created
+using the same field space, any fields allocated in that field space
+will be available on both logical regions. Similarly, any logical
+regions allocated with the same index space will have the same set of
+points associated with entries in the region.</p>
+
+<p>Every call to <code class="language-plaintext highlighter-rouge">create_logical_region</code> will create a new logical region
+even when the same index space and field space are passed as arguments
+(as seen in lines 60-61). Logical regions are uniquely defined by a
+triple consisting of the index space, field space, and <em>region tree
+ID</em>. These three values for every logical region can be obtained using
+the methods <code class="language-plaintext highlighter-rouge">get_index_space</code> (line 48), <code class="language-plaintext highlighter-rouge">get_field_space</code> (line 49),
+and <code class="language-plaintext highlighter-rouge">get_tree_id</code> (line 50). Line 61 demonstrates that the two logical
+regions have different region tree IDs.</p>
+
+<h4 id="resource-reclamation">Resource Reclamation</h4>
+
+<p>Index spaces, field spaces, and logical regions are all resources that
+use memory. (Although index spaces and field spaces have no memory
+directly associated with them, there is still a cost to the metadata
+that is allocated.) When applications are done using
+resources they should be returned to the runtime.
+The <code class="language-plaintext highlighter-rouge">destroy_logical_region</code> (line 63-65), <code class="language-plaintext highlighter-rouge">destroy_field_space</code>
+(line 66), and <code class="language-plaintext highlighter-rouge">destroy_index_space</code> (line 67-68) methods
+are used to return logical regions, field spaces,
+and index spaces to the runtime respectively. Since
+Legion operates with a deferred execution model, the
+runtime is smart enough to know how to defer deletions
+until they are safe to perform. This means that users
+do not need to wait for tasks that use logical regions
+to finish before issuing deletions commands to
+reclaim resources.</p>
+
+<p>If a task neglects to delete a logical region that it created (or
+index or field space), it will implicitly flow up to the parent task
+that called it. Thus, it will not be automatically deleted when the
+task finishes.</p>
+
+<p><code class="language-plaintext highlighter-rouge">FieldAllocator</code> objects are also
+resources, but, are similar to <code class="language-plaintext highlighter-rouge">Future</code> objects, in that they
+are reference counted. When the objects go out of the scope
+the destructor is invoked and references are removed. The use of the
+explicit C++ scope at line 36 is to ensure that the allocator is
+reclaimed as soon as it is done being used.</p>
+
+<p>Next Example: <a href="/tutorial/physical_regions.html">Physical Regions</a><br />
+Previous Example: <a href="/tutorial/hybrid.html">Hybrid Model</a></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+</pre></td><td class="code"><pre><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+#include</span> <span class="cpf">"legion.h"</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">Legion</span><span class="p">;</span>
+
+<span class="k">enum</span> <span class="n">TaskIDs</span> <span class="p">{</span>
+  <span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">FieldIDs</span> <span class="p">{</span>
+  <span class="n">FID_FIELD_A</span><span class="p">,</span>
+  <span class="n">FID_FIELD_B</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">top_level_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                    <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="n">Domain</span> <span class="n">domain</span><span class="p">(</span><span class="n">DomainPoint</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">DomainPoint</span><span class="p">(</span><span class="mi">1023</span><span class="p">));</span>
+  <span class="n">IndexSpace</span> <span class="n">untyped_is</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">domain</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Created untyped index space %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">untyped_is</span><span class="p">.</span><span class="n">get_id</span><span class="p">());</span>
+
+  <span class="k">const</span> <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1023</span><span class="p">);</span>
+  <span class="n">IndexSpaceT</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">typed_is</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">rect</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Created typed index space %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">typed_is</span><span class="p">.</span><span class="n">get_id</span><span class="p">());</span>
+
+  <span class="p">{</span>
+    <span class="n">Domain</span> <span class="n">orig_domain</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_index_space_domain</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">untyped_is</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">orig_domain</span> <span class="o">==</span> <span class="n">domain</span><span class="p">);</span>
+    <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">orig_rect</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_index_space_domain</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">typed_is</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">orig_rect</span> <span class="o">==</span> <span class="n">rect</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">FieldSpace</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Created field space field space %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">fs</span><span class="p">.</span><span class="n">get_id</span><span class="p">());</span>
+  <span class="p">{</span>
+    <span class="n">FieldAllocator</span> <span class="n">allocator</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_allocator</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
+    <span class="n">FieldID</span> <span class="n">fida</span> <span class="o">=</span> <span class="n">allocator</span><span class="p">.</span><span class="n">allocate_field</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span> <span class="n">FID_FIELD_A</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">fida</span> <span class="o">==</span> <span class="n">FID_FIELD_A</span><span class="p">);</span>
+    <span class="n">FieldID</span> <span class="n">fidb</span> <span class="o">=</span> <span class="n">allocator</span><span class="p">.</span><span class="n">allocate_field</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="n">FID_FIELD_B</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">fidb</span> <span class="o">==</span> <span class="n">FID_FIELD_B</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Allocated two fields with Field IDs %d and %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">fida</span><span class="p">,</span> <span class="n">fidb</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">LogicalRegion</span> <span class="n">untyped_lr</span> <span class="o">=</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">untyped_is</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Created untyped logical region (%x,%x,%x)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+      <span class="n">untyped_lr</span><span class="p">.</span><span class="n">get_index_space</span><span class="p">().</span><span class="n">get_id</span><span class="p">(),</span>
+      <span class="n">untyped_lr</span><span class="p">.</span><span class="n">get_field_space</span><span class="p">().</span><span class="n">get_id</span><span class="p">(),</span>
+      <span class="n">untyped_lr</span><span class="p">.</span><span class="n">get_tree_id</span><span class="p">());</span>
+
+  <span class="n">LogicalRegionT</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">typed_lr</span> <span class="o">=</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">typed_is</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Created typed logical region (%x,%x,%x)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+      <span class="n">typed_lr</span><span class="p">.</span><span class="n">get_index_space</span><span class="p">().</span><span class="n">get_id</span><span class="p">(),</span>
+      <span class="n">typed_lr</span><span class="p">.</span><span class="n">get_field_space</span><span class="p">().</span><span class="n">get_id</span><span class="p">(),</span>
+      <span class="n">typed_lr</span><span class="p">.</span><span class="n">get_tree_id</span><span class="p">());</span>
+
+  <span class="n">LogicalRegion</span> <span class="n">no_clone_lr</span> <span class="o">=</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">typed_is</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">typed_lr</span><span class="p">.</span><span class="n">get_tree_id</span><span class="p">()</span> <span class="o">!=</span> <span class="n">no_clone_lr</span><span class="p">.</span><span class="n">get_tree_id</span><span class="p">());</span>
+
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">untyped_lr</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">typed_lr</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">no_clone_lr</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">untyped_is</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">typed_is</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Successfully cleaned up all of our resources</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Runtime</span><span class="o">::</span><span class="n">set_top_level_task_id</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">top_level_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">start</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+
+    </div><!-- /.article-wrap -->
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <span>&copy; 2023 Legion. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-20524102-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+          
+
+</body>
+</html>

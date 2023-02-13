@@ -1,0 +1,381 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Hybrid Programming Model &#8211; Legion Programming System</title>
+<meta name="description" content="">
+
+<meta name="keywords" content="">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hybrid Programming Model">
+<meta property="og:description" content="Home page for the Legion parallel programming system">
+<meta property="og:url" content="/tutorial/hybrid.html">
+<meta property="og:site_name" content="Legion Programming System">
+
+
+
+
+
+<link rel="canonical" href="/tutorial/hybrid.html">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Legion Programming System Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.min.css">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.min.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="icon" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" sizes="48x48" href="/images/favicon/favicon-48x48.png">
+<link rel="icon" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" sizes="144x144" href="/images/favicon/favicon-144x144.png">
+<link rel="icon" sizes="192x192" href="/images/favicon/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="apple-touch-icon-precomposed" sizes="192x192" href="/images/favicon/apple-icon-precomposed.png">
+<meta name="msapplication-config" content="/images/favicon/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<link rel="manifest" href="/images/favicon/manifest.json">
+
+</head>
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Legion Programming System</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+				<li><a href="/overview/" >Overview</a></li>
+		        
+				<li><a href="/starting/" >Getting Started</a></li>
+		        
+				<li><a href="/tutorial/" >Tutorials</a></li>
+		        
+				<li><a href="/events/" >Events</a></li>
+		        
+				<li><a href="/documentation/" >Documentation</a></li>
+		        
+				<li><a href="/publications/" >Publications</a></li>
+		        
+				<li><a href="/resources/" >Resources</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  <div class="article-author-side">
+    <a href="https://www.stanford.edu/"><img src="/images/logos/stanford.png" class="bio-photo" alt="Stanford University logo"></a>
+<a href="https://www6.slac.stanford.edu/"><img src="/images/logos/slac.jpg" class="bio-photo" alt="SLAC National Accelerator Laboratory logo"></a>
+<a href="https://www.lanl.gov/"><img src="/images/logos/los-alamos.png" class="bio-photo" alt="Los Alamos National Laboratory logo"></a>
+<a href="https://www.nvidia.com/"><img src="/images/logos/nvidia.png" class="bio-photo" alt="NVIDIA logo"></a>
+<a href="https://www.rdworldonline.com/rd-100-award-winners-announced-in-analytical-test-it-electrical-categories/"><img src="/images/logos/rd100.png" class="bio-photo" alt="Winner of the R&D 100 Award"></a>
+
+<h3>Legion</h3>
+<p>High Productivity High Performance Computing</p>
+
+
+
+
+
+<a href="http://github.com/StanfordLegion/legion" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+  </div>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h1 itemprop="name">Hybrid Programming Model</h1>
+    <div class="article-wrap" itemprop="text">
+      <p>While using the Legion runtime API enables
+programmers to write Legion applications
+in C++ there are several restrictions which
+must be followed. In this short example we
+illustrate the hybrid nature of the Legion
+programming model and call attention to the
+necessary conventions which Legion C++
+applications must follow.</p>
+
+<h4 id="programming-model">Programming Model</h4>
+
+<p>By design Legion is a hybrid programming model
+that is coarse-grained functional and fine-grained
+imperative. Similar to functional programming
+languages like ML and Haskell, Legion tasks are
+pure with covariant and contra-variant arguments
+being passed in and out by value respectively. The
+one difference between functions in functional
+languages and Legion tasks is that Legion tasks
+are permitted to have declared side-effects on
+logical regions. In this way logical regions
+can operate as heaps with tasks mutating their
+state. We’ll see examples of how this works
+in later examples in this tutorial.</p>
+
+<p>Unlike pure-functional models, the Legion
+programming model allows
+for the implementation of tasks to be either
+functional or imperative. This freedom makes
+it possible to implement the Legion programming
+model in C++. However, it also places some
+restrictions on how Legion C++ applications
+must be structured.</p>
+
+<h4 id="global-variables-and-constants">Global Variables and Constants</h4>
+
+<p>One of the fundamental restrictions of the
+Legion programming model is that no global
+variables are permitted (line 11). This is necessary
+to comply with the functional nature of the
+Legion programming model. Furthermore, since
+there is no way for the runtime to know
+global variables exist, then there is no
+mechanism for Legion to ensure that global variables
+can be accessed by tasks running on different
+nodes in a distributed system. Variables which
+need to be accessed by many tasks should
+be allocated in logical regions which we
+cover in the next example.</p>
+
+<p>The one exception to rule concerning global
+variables is that global constants are
+permitted (line 14). Since the values of
+global constants remain the same throughout
+the execution of an application on all
+nodes, then they are safe to use despite
+the runtime’s ignorance concerning their
+existence.</p>
+
+<p>Thread local variables are still global variables
+and are therfore also illegal. It’s important to
+realize that tasks are not threads and the same
+Legion task may execute on multiple different
+hardware threads throughout the course of its
+lifetime, so the same task may not even end up
+accessing the same instance of a thread local
+variable during the course of its execution.
+We provide explicit Legion runtime calls if users
+would like to create task-local global variables
+that have the lifetime of a single task.</p>
+
+<p>One important detail to be cognizant of when
+writing Legion applications is that function
+pointers are another form of global variable.
+Function pointer values, such as the pointer
+to the function <code class="language-plaintext highlighter-rouge">foo</code> (line 19), can have
+different values in different processes
+executing in a distributed system. Therefore
+passing function pointers around Legion
+applications is strongly discouraged. Instead
+Legion provides method calls for registering
+tasks and other useful functions (e.g. reduction
+functions) statically with the runtime before
+the <code class="language-plaintext highlighter-rouge">start</code> method is invoked in the <code class="language-plaintext highlighter-rouge">main</code>
+function.</p>
+
+<h4 id="other-c-restrictions">Other C++ Restrictions</h4>
+
+<p>There are several other restrictions regarding
+the usage of C and C++ features in Legion
+applications. In general, Legion applications
+should not allocate memory directly using
+C or C++ conventions (lines 35-36).
+Instead logical regions should be used for storing
+data that needs to be persistent across sub-tasks
+or escapes from a task’s context. The one exception
+to this is that tasks can use C and C++ memory
+allocation routines as long as the lifetimes of
+the allocations do not exceed the lifetime of the
+task which performs the allocation. Furthermore, 
+any pointers referencing the allocation should not 
+be passed to sub-tasks or escape the task’s context.
+Violating either of the these conditions will result 
+in a Legion application with undefined behavior.</p>
+
+<p>Most other restrictions on the usage of C
+and C++ features are concerned with when it
+is safe to store pointers or references to
+physical instances of logical regions and
+will be covered in a later example. Applications
+are free to use all other features
+of C and C++ within Legion tasks.</p>
+
+<p>Next Example: <a href="/tutorial/logical_regions.html">Logical Regions</a><br />
+Previous Example: <a href="/tutorial/index_tasks.html">Index Space Tasks</a></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="code"><pre><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+#include</span> <span class="cpf">"legion.h"</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">Legion</span><span class="p">;</span>
+
+<span class="k">enum</span> <span class="n">TaskIDs</span> <span class="p">{</span>
+  <span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// ILLEGAL</span>
+<span class="kt">int</span> <span class="n">global_var</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// LEGAL</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">global_constant</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="c1">// ILLEGAL</span>
+<span class="kr">__thread</span> <span class="kt">int</span> <span class="n">thread_local_global_var</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">foo</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">top_level_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                    <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"The value of global_var %d is undefined</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">global_var</span><span class="p">);</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"The value of global_constant %d will always be the same</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">global_constant</span><span class="p">);</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"The value of thread_local_global_var %d is also undefined</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">thread_local_global_var</span><span class="p">);</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"The function pointer to foo %p may be different on different processors</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">foo</span><span class="p">);</span>
+
+  <span class="kt">void</span> <span class="o">*</span><span class="n">some_memory</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">16</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">some_memory</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Runtime</span><span class="o">::</span><span class="n">set_top_level_task_id</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">top_level_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">start</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+
+    </div><!-- /.article-wrap -->
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <span>&copy; 2023 Legion. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-20524102-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+          
+
+</body>
+</html>

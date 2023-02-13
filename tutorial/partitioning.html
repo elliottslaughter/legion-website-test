@@ -1,0 +1,796 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Partitioning &#8211; Legion Programming System</title>
+<meta name="description" content="">
+
+<meta name="keywords" content="">
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Partitioning">
+<meta property="og:description" content="Home page for the Legion parallel programming system">
+<meta property="og:url" content="/tutorial/partitioning.html">
+<meta property="og:site_name" content="Legion Programming System">
+
+
+
+
+
+<link rel="canonical" href="/tutorial/partitioning.html">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Legion Programming System Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.min.css">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.min.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<link rel="icon" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="icon" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" sizes="48x48" href="/images/favicon/favicon-48x48.png">
+<link rel="icon" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" sizes="144x144" href="/images/favicon/favicon-144x144.png">
+<link rel="icon" sizes="192x192" href="/images/favicon/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="apple-touch-icon-precomposed" sizes="192x192" href="/images/favicon/apple-icon-precomposed.png">
+<meta name="msapplication-config" content="/images/favicon/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<link rel="manifest" href="/images/favicon/manifest.json">
+
+</head>
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Legion Programming System</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+				<li><a href="/overview/" >Overview</a></li>
+		        
+				<li><a href="/starting/" >Getting Started</a></li>
+		        
+				<li><a href="/tutorial/" >Tutorials</a></li>
+		        
+				<li><a href="/events/" >Events</a></li>
+		        
+				<li><a href="/documentation/" >Documentation</a></li>
+		        
+				<li><a href="/publications/" >Publications</a></li>
+		        
+				<li><a href="/resources/" >Resources</a></li>
+		        
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  <div class="article-author-side">
+    <a href="https://www.stanford.edu/"><img src="/images/logos/stanford.png" class="bio-photo" alt="Stanford University logo"></a>
+<a href="https://www6.slac.stanford.edu/"><img src="/images/logos/slac.jpg" class="bio-photo" alt="SLAC National Accelerator Laboratory logo"></a>
+<a href="https://www.lanl.gov/"><img src="/images/logos/los-alamos.png" class="bio-photo" alt="Los Alamos National Laboratory logo"></a>
+<a href="https://www.nvidia.com/"><img src="/images/logos/nvidia.png" class="bio-photo" alt="NVIDIA logo"></a>
+<a href="https://www.rdworldonline.com/rd-100-award-winners-announced-in-analytical-test-it-electrical-categories/"><img src="/images/logos/rd100.png" class="bio-photo" alt="Winner of the R&D 100 Award"></a>
+
+<h3>Legion</h3>
+<p>High Productivity High Performance Computing</p>
+
+
+
+
+
+<a href="http://github.com/StanfordLegion/legion" class="author-social" target="_blank"><i class="icon-github"></i> Github</a>
+
+
+
+  </div>
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+    <h1 itemprop="name">Partitioning</h1>
+    <div class="article-wrap" itemprop="text">
+      <p>Continuing with our implementation of DAXPY,
+we illustrate how Legion enables applications
+to further express parallelism by partitioning
+logical regions into sub-regions and then
+launching tasks that can operate on different
+sub-regions in parallel.</p>
+
+<h4 id="partitioning-index-spaces">Partitioning Index Spaces</h4>
+
+<p>The act of partitioning in Legion breaks a
+set of points represented by an index space
+into subsets of points, each of which will
+become index sub-spaces. In our DAXPY example
+we want to partition our two logical regions
+into <code class="language-plaintext highlighter-rouge">num_subregions</code> different sub-regions.
+(Note that <code class="language-plaintext highlighter-rouge">num_subregions</code> can be controlled
+by the <code class="language-plaintext highlighter-rouge">-b</code> command line parameter now to
+specify the number of <em>blocks</em> to make.) To do
+this we must partition the common index space
+<code class="language-plaintext highlighter-rouge">is</code> upon which both logical regions are based.
+The partition we wish to create will be called
+<code class="language-plaintext highlighter-rouge">ip</code> for <em>index partition</em> (line 66).</p>
+
+<p>The first step in creating a partition is
+to create an <code class="language-plaintext highlighter-rouge">IndexSpace</code> which describes the
+the <em>color space</em> of the partition. The purpose of a color space
+is to associate a <em>color</em> (a point within
+the color space) with each index sub-space
+we wish to make. In this DAXPY example, we
+create a <code class="language-plaintext highlighter-rouge">color_space</code> with a point for each
+of the desired blocks (lines 63-64, recall
+<code class="language-plaintext highlighter-rouge">Rect</code> types are inclusive).</p>
+
+<p>Legion contains a large number of functions for performing any sort of
+partitioning the user desires. In this case, we’ll use
+<code class="language-plaintext highlighter-rouge">create_equal_partition</code> to create a partition with sub-regions of
+roughly equal size. The resulting sub-regions are guarranteed to be
+dense, but in general partitioning is quite expressive and the
+resulting sub-regions of most partitioning operations need not be
+dense.</p>
+
+<p>For an overview of Legion’s other partitioning operations, please see
+the <a href="/pdfs/dpl2016.pdf">Dependent Partitioning</a> paper.</p>
+
+<h4 id="obtaining-logical-sub-regions">Obtaining Logical Sub-Regions</h4>
+
+<p>While partitions are performed on index spaces,
+the created index partitions and index sub-spaces
+are implicitly created on all of the logical regions
+that were created using the original index space.
+For example, in our DAXPY application, the <code class="language-plaintext highlighter-rouge">is</code>
+index space was used to create both the <code class="language-plaintext highlighter-rouge">input_lr</code>
+and <code class="language-plaintext highlighter-rouge">output_lr</code> logical regions. Therefore, when
+we created the <code class="language-plaintext highlighter-rouge">ip</code> index partition of <code class="language-plaintext highlighter-rouge">is</code> we
+also automatically created the corresponding
+partitions for both the region trees rooted by
+<code class="language-plaintext highlighter-rouge">input_lr</code> and <code class="language-plaintext highlighter-rouge">output_lr</code>. (A quick performance
+note: the Legion runtime lazily instantiates the data
+structures for these region trees to avoid costly
+overheads when dealing with large numbers of partitions
+and sub-regions.) The following figure shows the
+resulting index space tree and two region trees for
+our DAXPY example:</p>
+
+<p><img src="/images/daxpy_partition.svg" alt="" /></p>
+
+<p>Since the logical partitions and sub-regions are
+implicitly created, the application initially
+has no means for obtaining handles to these objects.
+The Legion runtime supports several ways of
+acquiring these handles. One example can be
+seen on line 69 where the application invokes
+<code class="language-plaintext highlighter-rouge">get_logical_partition</code>. This method
+takes a logical region <code class="language-plaintext highlighter-rouge">R</code> and an index partition
+of the index space of <code class="language-plaintext highlighter-rouge">R</code> and returns the corresponding
+<code class="language-plaintext highlighter-rouge">LogicalPartition</code> handle. There are a number of additional methods (such as <code class="language-plaintext highlighter-rouge">get_logical_partition_by_color</code>
+and <code class="language-plaintext highlighter-rouge">get_logical_partition_by_tree</code>) which
+can be used to obtain <code class="language-plaintext highlighter-rouge">LogicalPartition</code>
+handles. For sub-regions, the runtime supports a corresponding
+set of methods (<code class="language-plaintext highlighter-rouge">get_logical_subregion</code>,
+<code class="language-plaintext highlighter-rouge">get_logical_subregion_by_color</code>, and
+<code class="language-plaintext highlighter-rouge">get_logical_subregion_by_tree</code>) for discovering
+the handles for logical sub-regions.</p>
+
+<h4 id="projection-region-requirements">Projection Region Requirements</h4>
+
+<p>As in the previous DAXPY example, we now want
+to launch sub-tasks for initializing fields,
+performing the DAXPY computation, and checking
+correctness. To take advantage of the partitioning
+that was performed and increase parallelism we
+need to launch separate sub-tasks for each of
+the logical sub-regions that were created.
+As in an earlier example, we use <code class="language-plaintext highlighter-rouge">IndexLauncher</code>
+objects for launching an index space of tasks.
+However, unlike launching single tasks, we need
+a way to specify different <code class="language-plaintext highlighter-rouge">RegionRequirement</code>
+objects for each of the points in the index space
+of tasks. To accomplish this we use <em>projection</em>
+region requirements.</p>
+
+<p>Projection region requirements provide a two-step
+mechanism for assigning a region requirement for
+each point task in an index space of task launches.
+First, a projection region requirement
+names an upper bound on the privileges to be
+requested by the index space task. This upper bound can
+either be a logical region or logical partition.
+The logical regions eventually requested by each
+point task in the index space of tasks must be subregions
+of the given upper bound. Second, a
+<em>projection functor</em> is used to pick the specific sub-regions given
+to each point task. We now illustrate how
+these two aspects of projection region requirements
+work in our DAXPY example.</p>
+
+<p>Projection region requirements are created using
+an overloaded constructor for the <code class="language-plaintext highlighter-rouge">RegionRequirement</code>
+type. These constructors always begin by specifying
+either a logical region or logical partition as
+an upper bound on the data to be accessed, followed
+by a projection functor ID (lines 79-80). The
+remaining arguments are the same as other
+<code class="language-plaintext highlighter-rouge">RegionRequirement</code> constructors. In our DAXPY
+example we use the <code class="language-plaintext highlighter-rouge">input_lp</code> and <code class="language-plaintext highlighter-rouge">output_lp</code>
+logical partitions as upper bounds for our index
+space task launches as each point task will
+be using a sub-region of these partitions. Our
+projection region requirements also use the
+projection ID <code class="language-plaintext highlighter-rouge">0</code> to specify our projection
+function. The <code class="language-plaintext highlighter-rouge">0</code> projection ID is a reserved
+ID which we describe momentarily. Applications
+can register their own projection functors either statically, before
+starting the Legion runtime starts, using the
+<code class="language-plaintext highlighter-rouge">preregister_projection_functor</code>, or dynamically, after it starts,
+with <code class="language-plaintext highlighter-rouge">register_projection_functor</code>. This is similar to how tasks are
+registered.</p>
+
+<p>The second step of using projection region
+requirements comes as the index space task
+is executed. When the runtime enumerates the
+index space of tasks, it invokes
+the specified projection functor on each
+point to compute the logical region requirement
+for that the task. In the case of our DAXPY example,
+we use the reserved <code class="language-plaintext highlighter-rouge">0</code> projection functor, which uses the identity
+function to determine which sub-region to use. So task <code class="language-plaintext highlighter-rouge">i</code> in the launch will get
+subregion <code class="language-plaintext highlighter-rouge">i</code> in the partition, and so on.</p>
+
+<p>The tasks in an index space launch must be able to run in
+parallel. This means that when using projection region requirements,
+it is important that the projection functor choose a different
+sub-region for every task in the launch, assuming the tasks are going
+to write to their respective regions. (It’s ok to pick the same
+sub-region if the tasks are only going to read or use reductions on
+the regions in question.)</p>
+
+<h4 id="finding-index-space-bounds">Finding Index Space Bounds</h4>
+
+<p>It can be useful to get the bounds of an index space directly from a
+logical region. This can be done with the <code class="language-plaintext highlighter-rouge">get_index_space_domain</code>
+method on an <code class="language-plaintext highlighter-rouge">IndexSpace</code>, which returns a struct. We use this method
+in all three sub-tasks to avoid needing explicitly pass the bounds of
+the regions down to these tasks.</p>
+
+<h4 id="region-non-interference">Region Non-Interference</h4>
+
+<p>In this version of DAXPY, we see an example of
+how the Legion runtime can extract parallelism
+from tasks using region non-interference. Since
+each of the tasks in our index space launches
+are using disjoint logical sub-regions, the Legion
+runtime can infer that these tasks can be run in
+parallel. The following figure shows the TDG
+computed for this version of DAXPY. (Note we
+could also have parallelized the checking task
+if we so desired.)</p>
+
+<p><img src="/images/daxpy_parallel.svg" alt="" /></p>
+
+<p>This version of DAXPY demonstrates the power
+of the Legion programming model. By understanding
+the structure of program data, the runtime can
+extract parallelism from both field-level and
+region non-interference at the same time. Using
+both forms of non-interference to discover simultaneous
+task- and data-level parallelism
+is something that no other programming model
+we are aware of is capable of achieving.</p>
+
+<p>Next Example: <a href="/tutorial/multiple.html">Multiple Partitions</a><br />
+Previous Example: <a href="/tutorial/privileges.html">Privileges</a></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+</pre></td><td class="code"><pre><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+#include</span> <span class="cpf">"legion.h"</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">Legion</span><span class="p">;</span>
+
+<span class="k">enum</span> <span class="n">TaskIDs</span> <span class="p">{</span>
+  <span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span>
+  <span class="n">INIT_FIELD_TASK_ID</span><span class="p">,</span>
+  <span class="n">DAXPY_TASK_ID</span><span class="p">,</span>
+  <span class="n">CHECK_TASK_ID</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">FieldIDs</span> <span class="p">{</span>
+  <span class="n">FID_X</span><span class="p">,</span>
+  <span class="n">FID_Y</span><span class="p">,</span>
+  <span class="n">FID_Z</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">top_level_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                    <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">num_elements</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">num_subregions</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="p">{</span>
+    <span class="k">const</span> <span class="n">InputArgs</span> <span class="o">&amp;</span><span class="n">command_args</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">get_input_args</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">command_args</span><span class="p">.</span><span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">strcmp</span><span class="p">(</span><span class="n">command_args</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="s">"-n"</span><span class="p">))</span>
+        <span class="n">num_elements</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">command_args</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">strcmp</span><span class="p">(</span><span class="n">command_args</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="s">"-b"</span><span class="p">))</span>
+        <span class="n">num_subregions</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">command_args</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Running daxpy for %d elements...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">num_elements</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Partitioning data into %d sub-regions...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">num_subregions</span><span class="p">);</span>
+
+  <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">elem_rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_elements</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">IndexSpace</span> <span class="n">is</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">elem_rect</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">is</span><span class="p">,</span> <span class="s">"is"</span><span class="p">);</span>
+  <span class="n">FieldSpace</span> <span class="n">input_fs</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">input_fs</span><span class="p">,</span> <span class="s">"input_fs"</span><span class="p">);</span>
+  <span class="p">{</span>
+    <span class="n">FieldAllocator</span> <span class="n">allocator</span> <span class="o">=</span>
+      <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_allocator</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">input_fs</span><span class="p">);</span>
+    <span class="n">allocator</span><span class="p">.</span><span class="n">allocate_field</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span><span class="n">FID_X</span><span class="p">);</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">input_fs</span><span class="p">,</span> <span class="n">FID_X</span><span class="p">,</span> <span class="s">"X"</span><span class="p">);</span>
+    <span class="n">allocator</span><span class="p">.</span><span class="n">allocate_field</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span><span class="n">FID_Y</span><span class="p">);</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">input_fs</span><span class="p">,</span> <span class="n">FID_Y</span><span class="p">,</span> <span class="s">"Y"</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">FieldSpace</span> <span class="n">output_fs</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">output_fs</span><span class="p">,</span> <span class="s">"output_fs"</span><span class="p">);</span>
+  <span class="p">{</span>
+    <span class="n">FieldAllocator</span> <span class="n">allocator</span> <span class="o">=</span>
+      <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_field_allocator</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_fs</span><span class="p">);</span>
+    <span class="n">allocator</span><span class="p">.</span><span class="n">allocate_field</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span><span class="n">FID_Z</span><span class="p">);</span>
+    <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">output_fs</span><span class="p">,</span> <span class="n">FID_Z</span><span class="p">,</span> <span class="s">"Z"</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">LogicalRegion</span> <span class="n">input_lr</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">is</span><span class="p">,</span> <span class="n">input_fs</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">input_lr</span><span class="p">,</span> <span class="s">"input_lr"</span><span class="p">);</span>
+  <span class="n">LogicalRegion</span> <span class="n">output_lr</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">is</span><span class="p">,</span> <span class="n">output_fs</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">output_lr</span><span class="p">,</span> <span class="s">"output_lr"</span><span class="p">);</span>
+
+  <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">color_bounds</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_subregions</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">IndexSpace</span> <span class="n">color_is</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">color_bounds</span><span class="p">);</span>
+
+  <span class="n">IndexPartition</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">create_equal_partition</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">is</span><span class="p">,</span> <span class="n">color_is</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="s">"ip"</span><span class="p">);</span>
+
+  <span class="n">LogicalPartition</span> <span class="n">input_lp</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_logical_partition</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">input_lr</span><span class="p">,</span> <span class="n">ip</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">input_lp</span><span class="p">,</span> <span class="s">"input_lp"</span><span class="p">);</span>
+  <span class="n">LogicalPartition</span> <span class="n">output_lp</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_logical_partition</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_lr</span><span class="p">,</span> <span class="n">ip</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">attach_name</span><span class="p">(</span><span class="n">output_lp</span><span class="p">,</span> <span class="s">"output_lp"</span><span class="p">);</span>
+
+  <span class="n">ArgumentMap</span> <span class="n">arg_map</span><span class="p">;</span>
+
+  <span class="n">IndexLauncher</span> <span class="n">init_launcher</span><span class="p">(</span><span class="n">INIT_FIELD_TASK_ID</span><span class="p">,</span> <span class="n">color_is</span><span class="p">,</span>
+                              <span class="n">TaskArgument</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">arg_map</span><span class="p">);</span>
+  <span class="n">init_launcher</span><span class="p">.</span><span class="n">add_region_requirement</span><span class="p">(</span>
+      <span class="n">RegionRequirement</span><span class="p">(</span><span class="n">input_lp</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/*projection ID*/</span><span class="p">,</span>
+                        <span class="n">WRITE_DISCARD</span><span class="p">,</span> <span class="n">EXCLUSIVE</span><span class="p">,</span> <span class="n">input_lr</span><span class="p">));</span>
+  <span class="n">init_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_X</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">init_launcher</span><span class="p">);</span>
+
+  <span class="n">init_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">privilege_fields</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">init_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">instance_fields</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">init_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_Y</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">init_launcher</span><span class="p">);</span>
+
+  <span class="k">const</span> <span class="kt">double</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">drand48</span><span class="p">();</span>
+  <span class="n">IndexLauncher</span> <span class="n">daxpy_launcher</span><span class="p">(</span><span class="n">DAXPY_TASK_ID</span><span class="p">,</span> <span class="n">color_is</span><span class="p">,</span>
+                <span class="n">TaskArgument</span><span class="p">(</span><span class="o">&amp;</span><span class="n">alpha</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">alpha</span><span class="p">)),</span> <span class="n">arg_map</span><span class="p">);</span>
+  <span class="n">daxpy_launcher</span><span class="p">.</span><span class="n">add_region_requirement</span><span class="p">(</span>
+      <span class="n">RegionRequirement</span><span class="p">(</span><span class="n">input_lp</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/*projection ID*/</span><span class="p">,</span>
+                        <span class="n">READ_ONLY</span><span class="p">,</span> <span class="n">EXCLUSIVE</span><span class="p">,</span> <span class="n">input_lr</span><span class="p">));</span>
+  <span class="n">daxpy_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_X</span><span class="p">);</span>
+  <span class="n">daxpy_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_Y</span><span class="p">);</span>
+  <span class="n">daxpy_launcher</span><span class="p">.</span><span class="n">add_region_requirement</span><span class="p">(</span>
+      <span class="n">RegionRequirement</span><span class="p">(</span><span class="n">output_lp</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/*projection ID*/</span><span class="p">,</span>
+                        <span class="n">WRITE_DISCARD</span><span class="p">,</span> <span class="n">EXCLUSIVE</span><span class="p">,</span> <span class="n">output_lr</span><span class="p">));</span>
+  <span class="n">daxpy_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_Z</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">daxpy_launcher</span><span class="p">);</span>
+
+  <span class="n">TaskLauncher</span> <span class="n">check_launcher</span><span class="p">(</span><span class="n">CHECK_TASK_ID</span><span class="p">,</span> <span class="n">TaskArgument</span><span class="p">(</span><span class="o">&amp;</span><span class="n">alpha</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">alpha</span><span class="p">)));</span>
+  <span class="n">check_launcher</span><span class="p">.</span><span class="n">add_region_requirement</span><span class="p">(</span>
+      <span class="n">RegionRequirement</span><span class="p">(</span><span class="n">input_lr</span><span class="p">,</span> <span class="n">READ_ONLY</span><span class="p">,</span> <span class="n">EXCLUSIVE</span><span class="p">,</span> <span class="n">input_lr</span><span class="p">));</span>
+  <span class="n">check_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_X</span><span class="p">);</span>
+  <span class="n">check_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_Y</span><span class="p">);</span>
+  <span class="n">check_launcher</span><span class="p">.</span><span class="n">add_region_requirement</span><span class="p">(</span>
+      <span class="n">RegionRequirement</span><span class="p">(</span><span class="n">output_lr</span><span class="p">,</span> <span class="n">READ_ONLY</span><span class="p">,</span> <span class="n">EXCLUSIVE</span><span class="p">,</span> <span class="n">output_lr</span><span class="p">));</span>
+  <span class="n">check_launcher</span><span class="p">.</span><span class="n">region_requirements</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">add_field</span><span class="p">(</span><span class="n">FID_Z</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">execute_task</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">check_launcher</span><span class="p">);</span>
+
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">input_lr</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_logical_region</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_lr</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">input_fs</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_field_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_fs</span><span class="p">);</span>
+  <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">destroy_index_space</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">is</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">init_field_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                     <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">privilege_fields</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="n">FieldID</span> <span class="n">fid</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">privilege_fields</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">point</span> <span class="o">=</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">index_point</span><span class="p">.</span><span class="n">point_data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Initializing field %d for block %d...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">point</span><span class="p">);</span>
+
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">WRITE_DISCARD</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fid</span><span class="p">);</span>
+  <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_index_space_domain</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span>
+                  <span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">region</span><span class="p">.</span><span class="n">get_index_space</span><span class="p">());</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">PointInRectIterator</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">pir</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span> <span class="n">pir</span><span class="p">();</span> <span class="n">pir</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">acc</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">]</span> <span class="o">=</span> <span class="n">drand48</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">daxpy_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">arglen</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+  <span class="k">const</span> <span class="kt">double</span> <span class="n">alpha</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="k">const</span> <span class="kt">double</span><span class="o">*</span><span class="p">)</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">args</span><span class="p">);</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">point</span> <span class="o">=</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">index_point</span><span class="p">.</span><span class="n">point_data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">READ_ONLY</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_x</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FID_X</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">READ_ONLY</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_y</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FID_Y</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">WRITE_DISCARD</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_z</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">FID_Z</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Running daxpy computation with alpha %.8g for point %d...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+          <span class="n">alpha</span><span class="p">,</span> <span class="n">point</span><span class="p">);</span>
+
+  <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_index_space_domain</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span>
+                  <span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">region</span><span class="p">.</span><span class="n">get_index_space</span><span class="p">());</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">PointInRectIterator</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">pir</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span> <span class="n">pir</span><span class="p">();</span> <span class="n">pir</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">acc_z</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">acc_x</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">]</span> <span class="o">+</span> <span class="n">acc_y</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">check_task</span><span class="p">(</span><span class="k">const</span> <span class="n">Task</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span>
+                <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">PhysicalRegion</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">regions</span><span class="p">,</span>
+                <span class="n">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">Runtime</span> <span class="o">*</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">arglen</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+  <span class="k">const</span> <span class="kt">double</span> <span class="n">alpha</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="k">const</span> <span class="kt">double</span><span class="o">*</span><span class="p">)</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">args</span><span class="p">);</span>
+
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">READ_ONLY</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_x</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FID_X</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">READ_ONLY</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_y</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FID_Y</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">FieldAccessor</span><span class="o">&lt;</span><span class="n">READ_ONLY</span><span class="p">,</span><span class="kt">double</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">acc_z</span><span class="p">(</span><span class="n">regions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">FID_Z</span><span class="p">);</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Checking results..."</span><span class="p">);</span>
+  <span class="n">Rect</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">-&gt;</span><span class="n">get_index_space_domain</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span>
+                  <span class="n">task</span><span class="o">-&gt;</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">region</span><span class="p">.</span><span class="n">get_index_space</span><span class="p">());</span>
+  <span class="kt">bool</span> <span class="n">all_passed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">PointInRectIterator</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">pir</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span> <span class="n">pir</span><span class="p">();</span> <span class="n">pir</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">acc_x</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">]</span> <span class="o">+</span> <span class="n">acc_y</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">];</span>
+    <span class="kt">double</span> <span class="n">received</span> <span class="o">=</span> <span class="n">acc_z</span><span class="p">[</span><span class="o">*</span><span class="n">pir</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">expected</span> <span class="o">!=</span> <span class="n">received</span><span class="p">)</span>
+      <span class="n">all_passed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">all_passed</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"SUCCESS!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+  <span class="k">else</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"FAILURE!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Runtime</span><span class="o">::</span><span class="n">set_top_level_task_id</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">);</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">TOP_LEVEL_TASK_ID</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">top_level_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"top_level"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">INIT_FIELD_TASK_ID</span><span class="p">,</span> <span class="s">"init_field"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">set_leaf</span><span class="p">();</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">init_field_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"init_field"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">DAXPY_TASK_ID</span><span class="p">,</span> <span class="s">"daxpy"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">set_leaf</span><span class="p">();</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">daxpy_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"daxpy"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span>
+    <span class="n">TaskVariantRegistrar</span> <span class="n">registrar</span><span class="p">(</span><span class="n">CHECK_TASK_ID</span><span class="p">,</span> <span class="s">"check"</span><span class="p">);</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">ProcessorConstraint</span><span class="p">(</span><span class="n">Processor</span><span class="o">::</span><span class="n">LOC_PROC</span><span class="p">));</span>
+    <span class="n">registrar</span><span class="p">.</span><span class="n">set_leaf</span><span class="p">();</span>
+    <span class="n">Runtime</span><span class="o">::</span><span class="n">preregister_task_variant</span><span class="o">&lt;</span><span class="n">check_task</span><span class="o">&gt;</span><span class="p">(</span><span class="n">registrar</span><span class="p">,</span> <span class="s">"check"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">Runtime</span><span class="o">::</span><span class="n">start</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+
+    </div><!-- /.article-wrap -->
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <span>&copy; 2023 Legion. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-20524102-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+          
+
+</body>
+</html>
